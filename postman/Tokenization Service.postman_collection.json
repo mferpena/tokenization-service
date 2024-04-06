@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "987f34c0-5456-44e2-b15a-83933314d492",
+		"name": "Tokenization Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31094567"
+	},
+	"item": [
+		{
+			"name": "local",
+			"item": [
+				{
+					"name": "http://localhost:3000/tokenize",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set('token', jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"gian_correo@gmail.com\",\r\n    \"card_number\": \"4111111111111111\",\r\n    \"cvv\": \"123\",\r\n    \"expiration_year\": \"2025\",\r\n    \"expiration_month\": \"09\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local-host}}api/v1/cards/tokenize",
+							"host": [
+								"{{local-host}}api"
+							],
+							"path": [
+								"v1",
+								"cards",
+								"tokenize"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/card/abc123",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local-host}}api/v1/cards/card/{{token}}",
+							"host": [
+								"{{local-host}}api"
+							],
+							"path": [
+								"v1",
+								"cards",
+								"card",
+								"{{token}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cluster",
+			"item": [
+				{
+					"name": "http://localhost:3000/tokenize",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set('eks_token', jsonData.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"gian_correo@gmail.com\",\r\n    \"card_number\": \"4111111111111111\",\r\n    \"cvv\": \"123\",\r\n    \"expiration_year\": \"2025\",\r\n    \"expiration_month\": \"09\"\r\n}"
+						},
+						"url": {
+							"raw": "{{eks-host}}api/v1/cards/tokenize",
+							"host": [
+								"{{eks-host}}api"
+							],
+							"path": [
+								"v1",
+								"cards",
+								"tokenize"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/card/abc123",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{eks-host}}api/v1/cards/card/{{eks_token}}",
+							"host": [
+								"{{eks-host}}api"
+							],
+							"path": [
+								"v1",
+								"cards",
+								"card",
+								"{{eks_token}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "local-host",
+			"value": "http://localhost:3000/"
+		},
+		{
+			"key": "eks-host",
+			"value": "http://127.0.0.1:35483/",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "eks_token",
+			"value": ""
+		}
+	]
+}
